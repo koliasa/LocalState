@@ -43,7 +43,7 @@
         "defaults": {},
         "list": 
         [
-            { //Almalinux 8.9
+            {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998e100000}",
                 "name": "Almalinux 8.9",
                 "commandline": "ssh k1@localhost",

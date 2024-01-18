@@ -1,0 +1,98 @@
+Create an SSH key pair on your computer with ssh-keygen.
+
+ssh-keygen 
+After running this command, you should see the following prompt:
+
+Generating public/private rsa key pair.
+Enter file in which to save the key (/your_home/.ssh/id_rsa):
+
+You have created a public and private key pair. To view your public key:
+
+cat ~/.ssh/id_rsa.pub
+
+---
+
+SSH to the server and create the .ssh directory, if it doesn’t already exist:
+
+mkdir -p ~/.ssh
+Add the public key from step 1 to ~/.ssh/authorized_keys. Replace public_key with the contents of id_rsa.pub from step 1.
+
+echo public_key >> ~/.ssh/authorized_keys
+Log out of the server, then log back in:
+
+ssh root@1.2.3.4
+
+---
+
+Your SSH key-based authentication is configured, but password authentication is still active. To change this you need to make some changes to the file sshd_config which is located in /etc/ssh directory. You can open that file with this command:
+
+sudo vi /etc/ssh/sshd_config
+In the file, you need to find and change several lines Permit Root Login should be set to yes
+
+...
+PermitRootLogin   yes
+...
+Password Authentication should be set to no
+
+...
+PasswordAuthentication  no
+...
+Challenge-Response Authentication should be set to no
+
+...
+ChallengeResponseAuthentication  no
+...  
+Using of Password Authentication Method (PAM) should be set to yes
+
+...
+UsePAM yes
+...
+After making these changes, press ESC and then :WQ. For this change to take effect, restart the sshd service:
+
+sudo systemctl restart sshd.service
+Before closing your terminal, open a new terminal window and run this command
+
+ssh root@1.2.3.4
+
+---
+
+//*
+//ssh-keygen -b 4096
+//Generating public/private rsa key pair.
+//Enter file in which to save the key (C:\Users\dev/.ssh/id_rsa): w3c
+//Enter passphrase (empty for no passphrase):
+//Enter same passphrase again:
+//Your identification has been saved in w3c
+//Your public key has been saved in w3c.pub
+//The key fingerprint is:
+//SHA256:u9jpq76V8dqVgKgk6F8zAEejxXGlSN/rrBm7FJ7rTlE dev@DESKTOP-KTTTGO3
+//The key's randomart image is:
+//+---[RSA 4096]----+
+//|  .*....         |
+//|  =.= o          |
+//| o o o E         |
+//| .o   ....       |
+//|. ...o..S .      |
+//|.  oo.*  = . .   |
+//| .  .X o+ . o    |
+//|  . + O+ = .     |
+//|   .oX*+B..      |
+//+----[SHA256]-----+ *//
+//mkdir ~/.ssh
+//touch ~/.ssh/authorized_keys
+//chmod 700 ~/.ssh
+//chmod 600 ~/.ssh/authorized_keys
+//scp C:\Users\ihor\OneDrive\Документи\ssh\atom\w3c.pub dev@192.168.1.222:~/.ssh/authorized_keys
+
+{
+    "guid": "{11111111-0000-1111-0000-111111111111}",
+    "name": "Atom",
+    "commandline": "ssh -i C:\\Users\\ihor\\OneDrive\\Документи\\ssh\\atom\\w3c dev@192.168.1.222",
+                "icon": "C:\\path\\to\\icon.png"
+},
+            {
+                "commandline": "ssh dev@192.168.1.222",
+                "guid": "{10101010-1010-1010-1010-101010101010}",
+                "name": "w3c",
+                "startingDirectory": "C:\\Users\\ihor\\ssh"
+            },
